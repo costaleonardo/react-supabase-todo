@@ -16,7 +16,6 @@ export type Database = {
           id: string
           important: boolean | null
           text: string
-          user_id: string
         }
         Insert: {
           completed?: boolean | null
@@ -24,7 +23,6 @@ export type Database = {
           id?: string
           important?: boolean | null
           text: string
-          user_id: string
         }
         Update: {
           completed?: boolean | null
@@ -32,7 +30,6 @@ export type Database = {
           id?: string
           important?: boolean | null
           text?: string
-          user_id?: string
         }
         Relationships: []
       }

@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Todo } from "@/types/todo";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Database } from "@/integrations/supabase/types";
 
 interface TodoContextType {
   todos: Todo[];
@@ -22,12 +21,6 @@ export function TodoProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const fetchTodos = async () => {
-      const { data: session } = await supabase.auth.getSession();
-      if (!session.session) {
-        setIsLoading(false);
-        return;
-      }
-
       const { data, error } = await supabase
         .from("todos")
         .select("*")
@@ -80,19 +73,8 @@ export function TodoProvider({ children }: { children: React.ReactNode }) {
   }, [toast]);
 
   const addTodo = async (text: string) => {
-    const { data: session } = await supabase.auth.getSession();
-    if (!session.session) {
-      toast({
-        title: "Please sign in",
-        description: "You need to be signed in to add todos",
-        variant: "destructive",
-      });
-      return;
-    }
-
     const { error } = await supabase.from("todos").insert({
       text,
-      user_id: session.session.user.id,
     });
 
     if (error) {
